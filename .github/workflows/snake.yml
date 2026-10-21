@@ -1,0 +1,30 @@
+name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Snake Animation
+        uses: Platane/snk@v3
+        with:
+          github_user_name: rishabhl3116-a11y
+          outputs: |
+            dist/github-contribution-grid-snake.svg?palette=github&color_snake=%2339d353
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=%2339d353
+            dist/snake-blue.svg?palette=github&color_snake=%231D4ED8&color_dots=%23EFF6FF,%23BFDBFE,%2360A5FA,%232563EB,%231E3A8A
+            dist/snake-blue-dark.svg?palette=github-dark&color_snake=%2393C5FD&color_dots=%23161B22,%231E3A8A,%231D4ED8,%233B82F6,%2393C5FD
+
+      - name: Push Snake to Output Branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: output
+          publish_dir: dist
